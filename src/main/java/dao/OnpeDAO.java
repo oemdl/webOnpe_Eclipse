@@ -25,5 +25,10 @@ public class OnpeDAO {
 		db.Sentencia( String.format( "usp_getGrupoVotacion '%s'", id ) );
 		return db.getRegistro();
 	}
+
+	public Object getDepartamentos(int inicio, int fin) {
+		db.Sentencia( String.format( "usp_getDepartamentos %s,%s", inicio, fin ) );
+		return db.getRegistros();
+	}
 	
 }

@@ -10,6 +10,18 @@
     <servlet-name>svlParticipacion</servlet-name>
     <url-pattern>/svlParticipacion</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <description></description>
+    <display-name>svlActas</display-name>
+    <servlet-name>svlActas</servlet-name>
+    <servlet-class>svl.svlActas</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>svlActas</servlet-name>
+    <url-pattern>/svlActas</url-pattern>
+  </servlet-mapping>
+
   <display-name>webOnpe_Eclipse</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

@@ -20,7 +20,7 @@
                 </a>
             </div>
             <div class="pull-left pd02 oculto2 ancho-ie">
-                <a href="actas.jsp">
+                <a href="svlActas">
                     <div class="grow pic btn04"><img src="images/actas.jpg" ></div>
                 <div class="tit02"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span><p>ACTAS</p></div>
                 </a>
