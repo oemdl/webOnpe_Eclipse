@@ -20,24 +20,43 @@ public class svlActas extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		dao.OnpeDAO daoOnpe = new dao.OnpeDAO();
-					
+		
 		String id = request.getParameter("id");
 		String nroMesa = request.getParameter("nroMesa");
-		String cboDepartamento = request.getParameter("cboDepartamento");
+		String idDepartamento = request.getParameter("cboDepartamento");
+		String idProvincia = request.getParameter("cboProvincia");
+		String idDistrito = request.getParameter("cboDistrito");
+		String idLocalVotacion = request.getParameter("cboLocalVotacion");
+		Object data = null;
+
+		if ( idDepartamento == null ) idDepartamento = "-1";
+		if ( idProvincia == null ) idProvincia = "-1";
+		if ( idDistrito == null ) idDistrito = "-1";
+		if ( idLocalVotacion == null ) idLocalVotacion = "-1";
 		
-		Object data = null, departamentos = null;
+		if ( id == null && session.getAttribute("departamentos") == null )
+			session.setAttribute("departamentos", daoOnpe.getDepartamentos(1,25) );
 		
-		if ( id == null ) {
-			departamentos = daoOnpe.getDepartamentos(1,25);
-			session.setAttribute("departamentos", departamentos);
-		}
+		if ( idDepartamento != null && !idDepartamento.equals("-1") )
+			session.setAttribute("provincias", daoOnpe.getProvincias(idDepartamento) );
+		
+		if ( idProvincia != null && !idProvincia.equals("1") )
+			session.setAttribute("distritos", daoOnpe.getDistritos(idProvincia) );
+		
+		
 		if ( nroMesa != null ) {
 			id = nroMesa;
 			data = daoOnpe.getGrupoVotacion(nroMesa);
 		}
+
+		
+		String sDPD = "";
+		if ( idDepartamento != null ) sDPD = idDepartamento;
+		if ( idProvincia != null ) sDPD += "," + idProvincia;
 		
 		session.setAttribute("id", id);
 		session.setAttribute("data", data);
+		session.setAttribute("dpd", sDPD);
 		
 		response.sendRedirect("actas.jsp");
 	}
