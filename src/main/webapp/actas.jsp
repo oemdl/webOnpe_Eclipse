@@ -132,8 +132,14 @@
 										<div class="col-md-4">
 											<label id="lblDistrito" class="control-label">Distrito:</label>
 											<div id="distritos" class="form-group">
-												<select id="cdgoDist" name="cdgoDist" class="form-control" onchange="getPageWeb('', 'actas', 'getLocalesVotacion', 'divLocal', '&amp;tipoElec=03&amp;ubigeo=' + this.value);" disabled="disabled">
-													<option selected="selected" value="">--SELECCIONE--</option>
+												<select id="cboDistrito" name="cboDistrito" class="form-control" onchange="javascript:document.frmBuscar.submit()" <%= aDPD[1].equals("-1") ? "disabled" : "" %> >
+													<option <%= ( aDPD[2].equals("-1") ? "selected" : "" ) %> value="-1">--SELECCIONE--</option>
+	    												
+	    												<% 	if ( session.getAttribute("distritos") != null ) {  
+	    														String[][] mDistritos = (String[][]) session.getAttribute("distritos"); 
+	    														for( String[] aDistrito : mDistritos ) { %>
+											            			<option <%= ( aDPD[2].equals( aDistrito[0] ) ? "selected" : "" ) %> value="<%= aDistrito[0] %>"><%= aDistrito[1] %></option>
+											            <% } } %>
 												</select>
 											</div>
 										</div>
@@ -141,8 +147,14 @@
 											<div class="form-group">
 												<label class="control-label">Locales:</label>
 												<div id="divLocal"> 
-													<select disabled="disabled" id="actas_ubigeo" name="actas_ubigeo" class="form-control">
-														<option selected="selected" value="-1?-1">--SELECCIONE--</option>
+													<select id="cboLocalVotacion" name="cboLocalVotacion" class="form-control" onchange="javascript:document.frmBuscar.submit()" <%= aDPD[2].equals("-1") ? "disabled" : "" %> >
+														<option <%= ( aDPD[3].equals("-1") ? "selected" : "" ) %> value="-1">--SELECCIONE--</option>
+		    												
+		    												<% 	if ( session.getAttribute("locales") != null ) {  
+		    														String[][] mLocales = (String[][]) session.getAttribute("locales"); 
+		    														for( String[] aLocal : mLocales ) { %>
+												            			<option <%= ( aDPD[3].equals( aLocal[0] ) ? "selected" : "" ) %> value="<%= aLocal[0] %>"><%= aLocal[1] %></option>
+												            <% } } %>
 													</select>
 												</div>
 											</div>

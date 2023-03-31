@@ -29,6 +29,19 @@ public class svlActas extends HttpServlet {
 		String idLocalVotacion = request.getParameter("cboLocalVotacion");
 		Object data = null;
 
+		if ( idDepartamento != null && idDepartamento.equals("-1") )  {
+			idProvincia = "-1";
+			session.setAttribute("provincias", null);
+		}
+		if ( idProvincia != null && idProvincia.equals("-1") ) {
+			idDistrito = "-1";
+			session.setAttribute("distritos", null);
+		}
+		if ( idDistrito != null && idDistrito.equals("-1") ) {
+			idLocalVotacion = "-1";
+			session.setAttribute("locales", null);
+		}
+		
 		if ( idDepartamento == null ) idDepartamento = "-1";
 		if ( idProvincia == null ) idProvincia = "-1";
 		if ( idDistrito == null ) idDistrito = "-1";
@@ -40,9 +53,11 @@ public class svlActas extends HttpServlet {
 		if ( idDepartamento != null && !idDepartamento.equals("-1") )
 			session.setAttribute("provincias", daoOnpe.getProvincias(idDepartamento) );
 		
-		if ( idProvincia != null && !idProvincia.equals("1") )
+		if ( idProvincia != null && !idProvincia.equals("-1") )
 			session.setAttribute("distritos", daoOnpe.getDistritos(idProvincia) );
 		
+		if ( idDistrito != null && !idDistrito.equals("-1") )
+			session.setAttribute("locales", daoOnpe.getLocalesVotacion(idDistrito) );
 		
 		if ( nroMesa != null ) {
 			id = nroMesa;
@@ -53,6 +68,8 @@ public class svlActas extends HttpServlet {
 		String sDPD = "";
 		if ( idDepartamento != null ) sDPD = idDepartamento;
 		if ( idProvincia != null ) sDPD += "," + idProvincia;
+		if ( idDistrito != null ) sDPD += "," + idDistrito;
+		if ( idLocalVotacion != null ) sDPD += "," + idLocalVotacion;
 		
 		session.setAttribute("id", id);
 		session.setAttribute("data", data);
