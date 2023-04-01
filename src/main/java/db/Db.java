@@ -73,7 +73,6 @@ public class Db {
 		return null;
 	}
 	
-	
 	public String[] getRegistro() {
 		if ( cn == null ) return null;
 		
@@ -94,6 +93,27 @@ public class Db {
 		return null;
 	}
 
+	public String[] getColumna() {
+		if ( cn == null ) return null;
+		
+		try {
+			ResultSet rs = ps.executeQuery();
+			
+			if ( rs.last() ) {
+				int filas = rs.getRow();
+				
+				rs.beforeFirst();
+				String[] aRegistro = new String[filas];
+				for( int fila=0;  rs.next(); fila ++ )
+					aRegistro[fila] = rs.getString( 1 );
+				
+				return aRegistro;
+			}
+		} catch (SQLException e) { e.printStackTrace(); }
+		
+		return null;
+	}
+	
 	public String getCampo() {
 		if ( ps == null ) return null;
 		try {

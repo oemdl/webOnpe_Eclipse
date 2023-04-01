@@ -29,48 +29,60 @@ public class svlActas extends HttpServlet {
 		String idLocalVotacion = request.getParameter("cboLocalVotacion");
 		Object data = null;
 
-		if ( idDepartamento != null && idDepartamento.equals("-1") )  {
-			idProvincia = "-1";
-			session.setAttribute("provincias", null);
-		}
-		if ( idProvincia != null && idProvincia.equals("-1") ) {
-			idDistrito = "-1";
-			session.setAttribute("distritos", null);
-		}
-		if ( idDistrito != null && idDistrito.equals("-1") ) {
-			idLocalVotacion = "-1";
-			session.setAttribute("locales", null);
-		}
-		
 		if ( idDepartamento == null ) idDepartamento = "-1";
 		if ( idProvincia == null ) idProvincia = "-1";
 		if ( idDistrito == null ) idDistrito = "-1";
 		if ( idLocalVotacion == null ) idLocalVotacion = "-1";
+
+		if ( idDepartamento.equals("-1") )  {
+			idProvincia = "-1";
+			session.setAttribute("provincias", null);
+		}
+		if ( idProvincia.equals("-1") ) {
+			idDistrito = "-1";
+			session.setAttribute("distritos", null);
+		}
+		if ( idDistrito.equals("-1") ) {
+			idLocalVotacion = "-1";
+			session.setAttribute("locales", null);
+		}
+		if ( idLocalVotacion.equals("-1") ) 
+			session.setAttribute("mesas", null);
+		
 		
 		if ( id == null && session.getAttribute("departamentos") == null )
 			session.setAttribute("departamentos", daoOnpe.getDepartamentos(1,25) );
 		
-		if ( idDepartamento != null && !idDepartamento.equals("-1") )
+		if ( !idDepartamento.equals( session.getAttribute("idDepartamento") ) ) {
+			idProvincia = "-1";
+			session.setAttribute("idDepartamento", idDepartamento);
 			session.setAttribute("provincias", daoOnpe.getProvincias(idDepartamento) );
+		}
 		
-		if ( idProvincia != null && !idProvincia.equals("-1") )
+		if ( !idProvincia.equals( session.getAttribute("idProvincia") ) ) {
+			idDistrito = "-1";
+			session.setAttribute("idProvincia", idProvincia);
 			session.setAttribute("distritos", daoOnpe.getDistritos(idProvincia) );
+		}
+			
 		
-		if ( idDistrito != null && !idDistrito.equals("-1") )
+		if ( !idDistrito.equals( session.getAttribute("idDistrito") ) ) {
+			idLocalVotacion = "-1";
+			session.setAttribute("idDistrito", idDistrito);
 			session.setAttribute("locales", daoOnpe.getLocalesVotacion(idDistrito) );
+		}
+		
+		if ( !idLocalVotacion.equals( session.getAttribute("idLocalVotacion") ) )  {
+			session.setAttribute("idLocalVotacion", idLocalVotacion);
+			session.setAttribute("mesas", daoOnpe.getGruposVotacion(idLocalVotacion) );
+		}
 		
 		if ( nroMesa != null ) {
 			id = nroMesa;
 			data = daoOnpe.getGrupoVotacion(nroMesa);
 		}
-
 		
-		String sDPD = "";
-		if ( idDepartamento != null ) sDPD = idDepartamento;
-		if ( idProvincia != null ) sDPD += "," + idProvincia;
-		if ( idDistrito != null ) sDPD += "," + idDistrito;
-		if ( idLocalVotacion != null ) sDPD += "," + idLocalVotacion;
-		
+		String sDPD = idDepartamento + "," + idProvincia + "," + idDistrito + "," + idLocalVotacion;
 		session.setAttribute("id", id);
 		session.setAttribute("data", data);
 		session.setAttribute("dpd", sDPD);

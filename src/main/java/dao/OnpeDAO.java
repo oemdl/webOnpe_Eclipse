@@ -48,7 +48,7 @@ public class OnpeDAO {
 
 	public Object getGruposVotacion(String idLocalVotacion) {
 		db.Sentencia( "usp_getGruposVotacion " + idLocalVotacion );
-		return db.getRegistros();
+		return db.getColumna();
 	}
 	
 }
